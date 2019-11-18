@@ -65,7 +65,7 @@ public class Extract {
 		
 		return resultText;
 	}
-
+	
 	/**
      * Extracts info from file in path to HTML file with same name in /output/ path.
      * Extracted fields are boldfaced in file and saved to /output/ directory.
