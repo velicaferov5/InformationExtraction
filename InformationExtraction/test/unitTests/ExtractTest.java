@@ -100,7 +100,7 @@ class ExtractTest {
 		
 		Extract ie = new Extract();
 		String actual = ie.extractFromFile(fields, "notExistingFolder" + filePath);
-		String  expected = "Input file not found.";
+		String  expected = "File couldn't be read.";
 		assertEquals(expected, actual);
 	}
 }

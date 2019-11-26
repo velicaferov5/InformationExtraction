@@ -1,6 +1,9 @@
 package unitTests;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.IOException;
+
 import org.junit.jupiter.api.Test;
 
 import main.FileOperations;
@@ -12,24 +15,20 @@ class FileOperationsTest {
 	final String outputPathNewFile = "output//newFile.html";
 
 	@Test
-	void testReadFileSuccess() {
+	void testReadFileCorrectContent() throws IOException {
 		FileOperations file = new FileOperations();
-		assertTrue(file.read(filePath));
-	}
-
-	@Test
-	void testReadFileCorrectContent() {
-		FileOperations file = new FileOperations();
-		file.read(filePath);
-		String actual = file.getText();
+		String actual = file.read(filePath);
 		String expected="Patients with Lung cancer and alzheimer needs care. Lung cancer requires very special care";
 		assertEquals(expected, actual);
 	}
 	
 	@Test
-	void testReadFileNotExist() {
+	void testReadException() {
 		FileOperations file = new FileOperations();
-		assertFalse(file.read("not_existing_file.html"));
+
+	    assertThrows(IOException.class, () -> {
+	    	file.read("not_existing_file.html");
+	    });
 	}
 	
 	@Test
@@ -41,7 +40,7 @@ class FileOperationsTest {
 	}
 	
 	@Test
-	void testExportLongerTestToNotExistingFile() {
+	void testExportLongerTestToNotExistingFile() throws IOException{
 		String text = "Hyperthyroidism is the condition that occurs due to excessive production of thyroid hormone by the thyroid gland. Thyrotoxicosis is the condition that occurs due to excessive thyroid hormone of any cause and therefore includes hyperthyroidism. Some, however, use the terms interchangeably. Signs and symptoms vary between people and may include irritability, muscle weakness, sleeping problems, a fast heartbeat, heat intolerance, diarrhea, enlargement of the thyroid, hand tremor, and weight loss. Symptoms are typically less severe in the elderly and during pregnancy. An uncommon complication is thyroid storm in which an event such as an infection results in worsening symptoms such as confusion and a high temperature and often results in death. The opposite is hypothyroidism, when the thyroid gland does not make enough thyroid hormone.\r\n" + 
 				"\r\n" + 
 				"Graves' disease is the cause of about 50% to 80% of the cases of hyperthyroidism in the United States. Other causes include multinodular goiter, toxic adenoma, inflammation of the thyroid, eating too much iodine, and too much synthetic thyroid hormone. A less common cause is a pituitary adenoma. The diagnosis may be suspected based on signs and symptoms and then confirmed with blood tests. Typically blood tests show a low thyroid stimulating hormone (TSH) and raised T3 or T4. Radioiodine uptake by the thyroid, thyroid scan, and TSI antibodies may help determine the cause.\r\n" + 
@@ -72,10 +71,7 @@ class FileOperationsTest {
 		boolean actual= file.exportToFile(text, outputPathNewFile);
 		assertTrue(actual);
 		
-		String fileContent = "";
-		if(file.read(outputPathNewFile))
-			fileContent = file.getText(); 
-		assertEquals(text,fileContent);
+		assertEquals(text,file.read(outputPathNewFile));
 	}
 
 	@Test
