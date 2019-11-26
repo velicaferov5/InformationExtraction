@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -46,9 +47,14 @@ public class Extract {
 		int beginIndex = 0;
 		
 		// Boldfacing is applied according to key (index) and values (length) in indexMap
-		for(int key:indexMap.keySet()) {
-			str.append(text.substring(beginIndex,key) + "<b>" + text.substring(key,key + indexMap.get(key)) + "</b>");
-			beginIndex = key + indexMap.get(key);
+		for(java.util.Map.Entry<Integer,Integer> mapSet:indexMap.entrySet()) {
+			int value = mapSet.getValue();
+			int key = mapSet.getKey();
+			str.append(text.substring(beginIndex,key));
+			str.append("<b>");
+			str.append(text.substring(key,key + value));
+			str.append("</b>");
+			beginIndex = key + value;
 		}
 		
 		if(beginIndex<text.length())
@@ -77,10 +83,14 @@ public class Extract {
 		
 		// validate filePath
 		FileOperations file = new FileOperations();
-		if(!file.read(filePath))
-			return "Input file not found.";
+		String text;
 		
-		String text = file.getText();
+		try {
+			text = file.read(filePath);
+		}catch(IOException e) {
+			return "File couldn't be read.";
+		}
+			
 		RabinKarpSearch search = new RabinKarpSearch(text);
 		Map<String, List<Integer>> occurenceMap = new HashMap<String, List<Integer>>();
 		

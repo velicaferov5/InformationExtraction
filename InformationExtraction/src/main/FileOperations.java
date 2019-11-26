@@ -14,38 +14,14 @@ import java.nio.file.Paths;
 
 public class FileOperations {
 
-	private String text;
-	
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-	
 	/**
-	 * Reads content of file. Returns true if reading is successful (e.g file exists), false in other cases.
-	 * If file is read, assigns content to text String which can be retrieved via getText() method.
+	 * Reads and returns content of file.
 	 * @param file path (the name of file with its directory).
-	 * @return true if reading is completed successfully.
+	 * @return text read
 	 */
-	public boolean read(String filePath) {
-		// validate filePath
-		if(!(new File(filePath).exists()))
-			return false;
-		
+	public String read(String filePath) throws IOException {
 		//read file into stream
-		String content="";
-		try {
-			content = new String(Files.readAllBytes(Paths.get(filePath)));
-			setText(content);
-			return true;
-
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
+			return new String(Files.readAllBytes(Paths.get(filePath)));
 	}
 	
 	/**

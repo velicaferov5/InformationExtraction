@@ -10,13 +10,13 @@ import java.util.Random;
  *  This implementation uses the Rabin-Karp algorithm (https://algs4.cs.princeton.edu/53substring/RabinKarp.java.html).
  */
 public class RabinKarpSearch {
-    private String text;      // the text to be parsed and searched in
+    private final String text;      // the text to be parsed and searched in
     private String pat;      // the pattern to be searched
 	private long patHash;    // pattern hash value
-    private int n;           // text length
+    private final int n;           // text length
     private int m;           // pattern length
-    private long q;          // a large prime, small enough to avoid long overflow
-    private int R;           // radix
+    private final long q;    // a large prime, small enough to avoid long overflow
+    private final int R;           // radix
     private long RM;         // R^(M-1) % Q
 
     /**
@@ -25,9 +25,8 @@ public class RabinKarpSearch {
      * @param pattern the pattern string
      * @param R the alphabet size
      */
-    public RabinKarpSearch(String text, int R) {
-    	this(text);
-    	this.R = R;
+    public RabinKarpSearch(String text) {
+    	this(text, 256);
     }
 
     /**
@@ -35,10 +34,10 @@ public class RabinKarpSearch {
      *
      * @param pat the pattern string
      */
-    public RabinKarpSearch(String text) {
+    public RabinKarpSearch(String text, int R) {
         this.text = text;      // save text
         n=text.length();
-        R = 256;
+        this.R = R;
         q = longRandomPrime();
     }
 
@@ -68,8 +67,8 @@ public class RabinKarpSearch {
 
     // Does pat[] match text[i..i-m+1] ?
     private boolean check(int i) {
-        for (int j = 0; j < pat.length(); j++) 
-            if (pat.charAt(j) != text.charAt(i + j)) 
+        for (int j = 0; j < pat.length(); j++)
+            if (pat.charAt(j) != text.charAt(i + j))
                 return false; 
         return true;
     }
