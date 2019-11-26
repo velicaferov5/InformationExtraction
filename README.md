@@ -1,10 +1,11 @@
-InformationExtraction project to extract fields from document.
+@Author Vali Jafarov
+InformationExtraction project can be used to extract fields from document.
 Following classes have been developed for following uses:
 
 1)	FileOperations Class.
 Reads and writes into file. Following public methods/services have been developed for these operations:
-•	boolean read (String filePath) method. 
-Can be used to read file and set as text attribute of object. Takes as input path of file as String. Returns true if reading is completed successfully. False in either cases.
+•	String read (String filePath) method. 
+Can be used to read file and get its context. Takes as input path of file as String. Returns content of file.
 
 •	boolean exportToFile(String text, String outputPath) method. 
 Can be used to write/export any text into directory sent. Takes as input text to be overwritten to file and directory to save file. Returns true if text successfully extracted into file, false in either cases
